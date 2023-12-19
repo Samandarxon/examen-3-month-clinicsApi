@@ -15,9 +15,8 @@ all: gen-swag
 	sleep 5 && air
 gitA:
 	git init && git add . && git commit -m "clinics" && git branch -M main && git remote add origin git@github.com:Samandarxon/examen-3-month-clinicsApi.git
-
-gitPush:
-git push -u origin main
+gitPush: 
+	git push -u origin main
 
 air:
 	air
