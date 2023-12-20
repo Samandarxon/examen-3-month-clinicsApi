@@ -37,7 +37,54 @@ func (r *PickingSheetRepo) Create(ctx context.Context, req models.CreatePickingS
 				"total",
 				"updated_at"
 			) VALUES ($1,$2,$3,$4,$5,$6,$7,NOW())`
+		name      sql.NullString
+		producSql = `
+			SELECT 
+						name
+			FROM "product" AS P
+			WHERE P.id = $1;
+			`
 	)
+	/********************************************** task 3 **********************************************/
+
+	productRow := r.db.QueryRow(ctx, producSql, req.ProductID)
+	productRow.Scan(&name)
+	fmt.Println(name.String, len(name.String) > 0)
+
+	if len(name.String) > 0 {
+		var (
+			Id           sql.NullString
+			Quantity     sql.NullInt64
+			remainderSql = `
+			SELECT
+				"id", 
+				"quantity"
+			FROM "remainder" 
+			WHERE "name" = $1;
+			`
+		)
+		remainderRow := r.db.QueryRow(ctx, remainderSql, name.String)
+		remainderRow.Scan(&Id, &Quantity)
+		fmt.Println("!!!!!!!!!!!!", Id.String, Quantity.Int64)
+
+		updateSql := `
+		UPDATE "remainder" SET  
+				"quantity" = $2,
+				"updated_at" = NOW()
+		WHERE "id" = $1`
+		upQuantity := Quantity.Int64 + req.Quantity
+		_, err := r.db.Exec(ctx, updateSql,
+			Id,
+			upQuantity,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		return nil, nil
+	}
+	/********************************************** task 3 end **********************************************/
+
 	_, err := r.db.Exec(ctx, query,
 		picking_sheetId,
 		incrementIdNext(),

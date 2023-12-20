@@ -44,8 +44,14 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "offset",
-                        "name": "search",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "phone_number",
+                        "name": "phone_number",
                         "in": "query"
                     }
                 ],
@@ -462,12 +468,6 @@ const docTemplate = `{
                         "description": "offset",
                         "name": "offset",
                         "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "offset",
-                        "name": "search",
-                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -882,12 +882,6 @@ const docTemplate = `{
                         "type": "number",
                         "description": "offset",
                         "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "offset",
-                        "name": "search",
                         "in": "query"
                     }
                 ],
@@ -1307,8 +1301,14 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "offset",
-                        "name": "search",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "branch_id",
+                        "name": "branch_id",
                         "in": "query"
                     }
                 ],
@@ -1728,8 +1728,14 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "offset",
-                        "name": "search",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "branch_id",
+                        "name": "branch_id",
                         "in": "query"
                     }
                 ],
@@ -2120,6 +2126,164 @@ const docTemplate = `{
                 }
             }
         },
+        "/report_client": {
+            "get": {
+                "description": "ClinetOverallReport",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OverallReport"
+                ],
+                "summary": "ClinetOverallReport",
+                "operationId": "ClinetOverallReport",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "date_from",
+                        "name": "date_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "date_to",
+                        "name": "date_to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "ClinetOverallReportBody",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.Client"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Argument",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/report_sale": {
+            "get": {
+                "description": "SaleOverallReport",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OverallReport"
+                ],
+                "summary": "SaleOverallReport",
+                "operationId": "SaleOverallReport",
+                "responses": {
+                    "201": {
+                        "description": "SaleOverallReportBody",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.Client"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Argument",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/sale": {
             "get": {
                 "description": "GetList Sale",
@@ -2145,12 +2309,6 @@ const docTemplate = `{
                         "type": "number",
                         "description": "offset",
                         "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "offset",
-                        "name": "search",
                         "in": "query"
                     }
                 ],
@@ -2566,12 +2724,6 @@ const docTemplate = `{
                         "type": "number",
                         "description": "offset",
                         "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "offset",
-                        "name": "search",
                         "in": "query"
                     }
                 ],
@@ -2991,8 +3143,26 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "offset",
-                        "name": "search",
+                        "description": "first_name",
+                        "name": "first_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "last_name",
+                        "name": "last_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "branch_id",
+                        "name": "branch_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "phone_number",
+                        "name": "phone_number",
                         "in": "query"
                     }
                 ],
@@ -3569,10 +3739,10 @@ const docTemplate = `{
                 "arrival_price": {
                     "type": "number"
                 },
-                "name": {
+                "branch_id": {
                     "type": "string"
                 },
-                "product_id": {
+                "name": {
                     "type": "string"
                 },
                 "quantity": {
@@ -3796,6 +3966,9 @@ const docTemplate = `{
                 "arrival_price": {
                     "type": "number"
                 },
+                "branch_id": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -3803,9 +3976,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
-                    "type": "string"
-                },
-                "product_id": {
                     "type": "string"
                 },
                 "quantity": {
@@ -3974,10 +4144,10 @@ const docTemplate = `{
                 "arrival_price": {
                     "type": "number"
                 },
-                "name": {
+                "branch_id": {
                     "type": "string"
                 },
-                "product_id": {
+                "name": {
                     "type": "string"
                 },
                 "quantity": {

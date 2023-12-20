@@ -81,15 +81,28 @@ func (h *Handler) GetByIdClient(c *gin.Context) {
 // @Produce		json
 // @Param limit query number false "limit"
 // @Param offset query number false "offset"
-// @Param search query string false "offset"
+// @Param first_name query string false "first_name"
+// @Param last_name query string false "last_name"
+// @Param branch_id query string false "branch_id"
+// @Param phone_number query string false "phone_number"
 // @Success		200		{object}	Response{data=models.GetListClientResponse} "UserBody"
 // @Response	400		{object}	Response{data=string}	"Invalid Argument"
 // @Failure		500		{object}	Response{data=string}
 func (h *Handler) GetListClient(c *gin.Context) {
 	limit, _ := strconv.Atoi(c.Query("limit"))
 	offset, _ := strconv.Atoi(c.Query("offset"))
-	search := c.Query("search")
-	resp, err := h.strg.Client().GetList(c, models.GetListClientRequest{Offset: offset, Limit: limit, Search: search})
+	first_name := c.Query("first_name")
+	last_name := c.Query("last_name")
+	branch_id := c.Query("branch_id")
+	phone_number := c.Query("phone_number")
+	resp, err := h.strg.Client().GetList(c, models.GetListClientRequest{
+		Offset:      offset,
+		Limit:       limit,
+		FirstName:   first_name,
+		LastName:    last_name,
+		BranchID:    branch_id,
+		PhoneNumber: phone_number,
+	})
 	if err != nil {
 		handleResponse(c, http.StatusBadRequest, err)
 	}

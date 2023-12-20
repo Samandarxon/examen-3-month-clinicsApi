@@ -81,15 +81,23 @@ func (h *Handler) GetByIdBranch(c *gin.Context) {
 // @Produce		json
 // @Param limit query number false "limit"
 // @Param offset query number false "offset"
-// @Param search query string false "offset"
+// @Param name query string false "name"
+// @Param phone_number query string false "phone_number"
 // @Success		200		{object}	Response{data=models.GetListBranchResponse} "BranchBody"
 // @Response	400		{object}	Response{data=string}	"Invalid Argument"
 // @Failure		500		{object}	Response{data=string}
 func (h *Handler) GetListBranch(c *gin.Context) {
 	limit, _ := strconv.Atoi(c.Query("limit"))
 	offset, _ := strconv.Atoi(c.Query("offset"))
-	search := c.Query("search")
-	resp, err := h.strg.Branch().GetList(c, models.GetListBranchRequest{Offset: offset, Limit: limit, Search: search})
+	name := c.Query("name")
+	phone_number := c.Query("phone_number")
+
+	resp, err := h.strg.Branch().GetList(c, models.GetListBranchRequest{
+		Offset:      offset,
+		Limit:       limit,
+		Name:        name,
+		PhoneNumber: phone_number,
+	})
 	if err != nil {
 		handleResponse(c, http.StatusBadRequest, err)
 	}

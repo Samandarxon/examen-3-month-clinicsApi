@@ -19,6 +19,7 @@ type Store struct {
 	remainder    storage.RemainderRepoI
 	sale_product storage.SaleProductRepoI
 	sale         storage.SaleRepoI
+	report       storage.ReportRepoI
 }
 
 func NewConnectionPostgres(cfg *config.Config) (storage.StorageI, error) {
@@ -101,4 +102,11 @@ func (s *Store) Sale() storage.SaleRepoI {
 		s.sale = NewSaleRepo(s.db)
 	}
 	return s.sale
+}
+
+func (s *Store) Report() storage.ReportRepoI {
+	if s.report == nil {
+		s.report = NewReportRepo(s.db)
+	}
+	return s.report
 }

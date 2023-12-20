@@ -59,11 +59,11 @@ CREATE TABLE IF NOT EXISTS "picking_sheet"(
 -- Остаток
 CREATE TABLE IF NOT EXISTS "remainder"(
   "id" UUID PRIMARY KEY NOT NULL,
-  "name" VARCHAR(50) NOT NULL,
+  "name" VARCHAR(50) UNIQUE NOT NULL,
   "quantity" INTEGER NOT NULL,
   "arrival_price" DECIMAL NOT NULL,
   "selling_price" DECIMAL NOT NULL,
-  "product_id" UUID REFERENCES "product"("id") NOT NULL,
+  "branch_id" UUID REFERENCES "branch"("id") NOT NULL,
   "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   "updated_at" TIMESTAMP
 );

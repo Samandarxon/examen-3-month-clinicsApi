@@ -2,8 +2,11 @@
 run:
 	go run cmd/main.go
 
+
 gen-swag:
 	swag init -g ./api/api.go -o ./api/docs
+swagUp:
+	go get -u github.com/swaggo/gin-swagger && go get -u github.com/swaggo/files
 
 migration-up:
 	migrate -path ./db/sql/ -database "postgresql://samandarxon:1234@localhost:5432/market_system?sslmode=disable" -verbose up
@@ -12,7 +15,7 @@ migration-down:
 	migrate -path ./db/sql/ -database "postgresql://samandarxon:1234@localhost:5432/market_system?sslmode=disable" -verbose down
 
 all: gen-swag 
-	sleep 5 && air
+	sleep 2 && air
 gitA:
 	git init && git add . && git commit -m "clinics" && git branch -M main && git remote add origin git@github.com:Samandarxon/examen-3-month-clinicsApi.git
 gitPush: 

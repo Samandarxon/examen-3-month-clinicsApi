@@ -81,15 +81,22 @@ func (h *Handler) GetByIdRemainder(c *gin.Context) {
 // @Produce		json
 // @Param limit query number false "limit"
 // @Param offset query number false "offset"
-// @Param search query string false "offset"
+// @Param name query string false "name"
+// @Param branch_id query string false "branch_id"
 // @Success		200		{object}	Response{data=models.GetListRemainderResponse} "RemainderBody"
 // @Response	400		{object}	Response{data=string}	"Invalid Argument"
 // @Failure		500		{object}	Response{data=string}
 func (h *Handler) GetListRemainder(c *gin.Context) {
 	limit, _ := strconv.Atoi(c.Query("limit"))
 	offset, _ := strconv.Atoi(c.Query("offset"))
-	search := c.Query("search")
-	resp, err := h.strg.Remainder().GetList(c, models.GetListRemainderRequest{Offset: offset, Limit: limit, Search: search})
+	name := c.Query("name")
+	branch_id := c.Query("branch_id")
+	resp, err := h.strg.Remainder().GetList(c, models.GetListRemainderRequest{
+		Offset:   offset,
+		Limit:    limit,
+		Name:     name,
+		BranchID: branch_id,
+	})
 	if err != nil {
 		handleResponse(c, http.StatusBadRequest, err)
 	}

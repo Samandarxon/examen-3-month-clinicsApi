@@ -81,15 +81,14 @@ func (h *Handler) GetByIdSaleProduct(c *gin.Context) {
 // @Produce		json
 // @Param limit query number false "limit"
 // @Param offset query number false "offset"
-// @Param search query string false "offset"
 // @Success		200		{object}	Response{data=models.GetListSaleProductResponse} "SaleProductBody"
 // @Response	400		{object}	Response{data=string}	"Invalid Argument"
 // @Failure		500		{object}	Response{data=string}
 func (h *Handler) GetListSaleProduct(c *gin.Context) {
 	limit, _ := strconv.Atoi(c.Query("limit"))
 	offset, _ := strconv.Atoi(c.Query("offset"))
-	search := c.Query("search")
-	resp, err := h.strg.SaleProduct().GetList(c, models.GetListSaleProductRequest{Offset: offset, Limit: limit, Search: search})
+	// search := c.Query("search")
+	resp, err := h.strg.SaleProduct().GetList(c, models.GetListSaleProductRequest{Offset: offset, Limit: limit})
 	if err != nil {
 		handleResponse(c, http.StatusBadRequest, err)
 	}

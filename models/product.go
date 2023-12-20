@@ -26,10 +26,11 @@ type UpdateProduct struct {
 }
 
 type GetListProductRequest struct {
-	Offset int    `json:"offset"`
-	Limit  int    `json:"limit"`
-	Search string `json:"search"`
-	Query  string `json:"-"`
+	Offset   int    `json:"offset"`
+	Limit    int    `json:"limit"`
+	Name     string `json:"name"`
+	BranchID string `json:"branch_id"`
+	Query    string `json:"-"`
 }
 
 type GetListProductResponse struct {

@@ -128,9 +128,9 @@ func (r *ComingTableRepo) GetList(ctx context.Context, req models.GetListComingT
 	if req.Limit > 0 {
 		limit = fmt.Sprintf(" LIMIT %d", req.Limit)
 	}
-	if len(req.Search) > 0 {
-		where += " AND dated ILIKE" + " '%" + req.Search + "%'"
-	}
+	// if len(req.Search) > 0 {
+	// 	where += " AND dated ILIKE" + " '%" + req.Search + "%'"
+	// }
 
 	if len(req.Query) > 0 {
 		querySql = fmt.Sprintf(" AND %s", req.Query)

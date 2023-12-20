@@ -31,7 +31,7 @@ func (r *RemainderRepo) Create(ctx context.Context, req models.CreateRemainder) 
 				"quantity",
 				"arrival_price",
 				"selling_price",
-				"product_id",
+				"branch_id",
 				"updated_at"
 			) VALUES ($1,$2,$3,$4,$5,$6,NOW())`
 	)
@@ -41,7 +41,7 @@ func (r *RemainderRepo) Create(ctx context.Context, req models.CreateRemainder) 
 		req.Quantity,
 		req.ArrivalPrice,
 		req.SellingPrice,
-		req.ProductID,
+		req.BranchID,
 	)
 	fmt.Println(query)
 	// defer r.db.Close()
@@ -64,7 +64,7 @@ func (c *RemainderRepo) GetById(ctx context.Context, req models.RemainderPrimary
 				"quantity",
 				"arrival_price",
 				"selling_price",
-				"product_id",
+				"branch_id",
 				"created_at",
 				"updated_at"
 		FROM "remainder" WHERE id=$1`
@@ -76,7 +76,7 @@ func (c *RemainderRepo) GetById(ctx context.Context, req models.RemainderPrimary
 		Quantity     sql.NullInt64
 		ArrivalPrice sql.NullFloat64
 		SellingPrice sql.NullFloat64
-		ProductID    sql.NullString
+		BranchID     sql.NullString
 		CreatedAt    sql.NullString
 		UpdatedAt    sql.NullString
 	)
@@ -90,7 +90,7 @@ func (c *RemainderRepo) GetById(ctx context.Context, req models.RemainderPrimary
 		&Quantity,
 		&ArrivalPrice,
 		&SellingPrice,
-		&ProductID,
+		&BranchID,
 		&CreatedAt,
 		&UpdatedAt,
 	)
@@ -103,7 +103,7 @@ func (c *RemainderRepo) GetById(ctx context.Context, req models.RemainderPrimary
 		Quantity:     Quantity.Int64,
 		ArrivalPrice: ArrivalPrice.Float64,
 		SellingPrice: SellingPrice.Float64,
-		ProductID:    ProductID.String,
+		BranchID:     BranchID.String,
 		CreatedAt:    CreatedAt.String,
 		UpdatedAt:    UpdatedAt.String,
 	}
@@ -126,7 +126,7 @@ func (r *RemainderRepo) GetList(ctx context.Context, req models.GetListRemainder
 							"quantity",
 							"arrival_price",
 							"selling_price",
-							"product_id",
+							"branch_id",
 							"created_at",
 							"updated_at"
 						FROM "remainder"`
@@ -138,8 +138,13 @@ func (r *RemainderRepo) GetList(ctx context.Context, req models.GetListRemainder
 	if req.Limit > 0 {
 		limit = fmt.Sprintf(" LIMIT %d", req.Limit)
 	}
-	if len(req.Search) > 0 {
-		where += " AND name ILIKE" + " '%" + req.Search + "%'"
+
+	if len(req.BranchID) > 0 {
+		where += " AND CAST(branch_id AS VARCHAR) ILIKE" + " '%" + req.BranchID + "%'"
+	}
+
+	if len(req.Name) > 0 {
+		where += " AND name ILIKE" + " '%" + req.Name + "%'"
 	}
 
 	if len(req.Query) > 0 {
@@ -159,7 +164,7 @@ func (r *RemainderRepo) GetList(ctx context.Context, req models.GetListRemainder
 			Quantity     sql.NullInt64
 			ArrivalPrice sql.NullFloat64
 			SellingPrice sql.NullFloat64
-			ProductID    sql.NullString
+			BranchID     sql.NullString
 			CreatedAt    sql.NullString
 			UpdatedAt    sql.NullString
 		)
@@ -171,7 +176,7 @@ func (r *RemainderRepo) GetList(ctx context.Context, req models.GetListRemainder
 			&Quantity,
 			&ArrivalPrice,
 			&SellingPrice,
-			&ProductID,
+			&BranchID,
 			&CreatedAt,
 			&UpdatedAt,
 		)
@@ -185,7 +190,7 @@ func (r *RemainderRepo) GetList(ctx context.Context, req models.GetListRemainder
 			Quantity:     Quantity.Int64,
 			ArrivalPrice: ArrivalPrice.Float64,
 			SellingPrice: SellingPrice.Float64,
-			ProductID:    ProductID.String,
+			BranchID:     BranchID.String,
 			CreatedAt:    CreatedAt.String,
 			UpdatedAt:    UpdatedAt.String,
 		})
@@ -202,7 +207,7 @@ func (r *RemainderRepo) Update(ctx context.Context, req models.UpdateRemainder) 
 							"quantity" = $3,
 							"arrival_price" = $4,
 							"selling_price" = $5,
-							"product_id" = $6,	
+							"branch_id" = $6,	
 							"updated_at" = NOW()
 						WHERE "id" = $1`
 	fmt.Println(query)
@@ -212,7 +217,7 @@ func (r *RemainderRepo) Update(ctx context.Context, req models.UpdateRemainder) 
 		req.Quantity,
 		req.ArrivalPrice,
 		req.SellingPrice,
-		req.ProductID,
+		req.BranchID,
 	)
 	if err != nil {
 		return nil, err

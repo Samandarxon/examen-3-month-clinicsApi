@@ -81,7 +81,6 @@ func (h *Handler) GetByIdComingTable(c *gin.Context) {
 // @Produce		json
 // @Param limit query number false "limit"
 // @Param offset query number false "offset"
-// @Param search query string false "offset"
 // @Success		200		{object}	Response{data=models.GetListComingTableResponse} "ComingTableBody"
 // @Response	400		{object}	Response{data=string}	"Invalid Argument"
 // @Failure		500		{object}	Response{data=string}
@@ -89,8 +88,7 @@ func (h *Handler) GetListComingTable(c *gin.Context) {
 
 	limit, _ := strconv.Atoi(c.Query("limit"))
 	offset, _ := strconv.Atoi(c.Query("offset"))
-	search := c.Query("search")
-	resp, err := h.strg.ComingTable().GetList(c, models.GetListComingTableRequest{Offset: offset, Limit: limit, Search: search})
+	resp, err := h.strg.ComingTable().GetList(c, models.GetListComingTableRequest{Offset: offset, Limit: limit})
 	if err != nil {
 		handleResponse(c, http.StatusBadRequest, err)
 	}

@@ -6,7 +6,7 @@ type Remainder struct {
 	Quantity     int64   `json:"quantity"`
 	ArrivalPrice float64 `json:"arrival_price"`
 	SellingPrice float64 `json:"selling_price"`
-	ProductID    string  `json:"product_id"`
+	BranchID     string  `json:"branch_id"`
 	CreatedAt    string  `json:"created_at"`
 	UpdatedAt    string  `json:"updated_at"`
 }
@@ -19,7 +19,7 @@ type CreateRemainder struct {
 	Quantity     int64   `json:"quantity"`
 	ArrivalPrice float64 `json:"arrival_price"`
 	SellingPrice float64 `json:"selling_price"`
-	ProductID    string  `json:"product_id"`
+	BranchID     string  `json:"branch_id"`
 }
 
 type UpdateRemainder struct {
@@ -28,14 +28,15 @@ type UpdateRemainder struct {
 	Quantity     int64   `json:"quantity"`
 	ArrivalPrice float64 `json:"arrival_price"`
 	SellingPrice float64 `json:"selling_price"`
-	ProductID    string  `json:"product_id"`
+	BranchID     string  `json:"branch_id"`
 }
 
 type GetListRemainderRequest struct {
-	Offset int    `json:"offset"`
-	Limit  int    `json:"limit"`
-	Search string `json:"search"`
-	Query  string `json:"-"`
+	Offset   int    `json:"offset"`
+	Limit    int    `json:"limit"`
+	BranchID string `json:"branch_id"`
+	Name     string `json:"name"`
+	Query    string `json:"-"`
 }
 
 type GetListRemainderResponse struct {

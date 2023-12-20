@@ -152,8 +152,19 @@ func (r *ClientRepo) GetList(ctx context.Context, req models.GetListClientReques
 	if req.Limit > 0 {
 		limit = fmt.Sprintf(" LIMIT %d", req.Limit)
 	}
-	if len(req.Search) > 0 {
-		where += " AND title ILIKE" + " '%" + req.Search + "%'"
+
+	if len(req.FirstName) > 0 {
+		where += " AND first_name ILIKE" + " '%" + req.FirstName + "%'"
+	}
+	if len(req.LastName) > 0 {
+		where += " AND last_name ILIKE" + " '%" + req.LastName + "%'"
+	}
+	if len(req.PhoneNumber) > 0 {
+		where += " AND phone_number ILIKE" + " '%" + req.PhoneNumber + "%'"
+	}
+
+	if len(req.BranchID) > 0 {
+		where += " AND CAST(branch_id AS VARCHAR) ILIKE" + " '%" + req.BranchID + "%'"
 	}
 
 	if len(req.Query) > 0 {

@@ -29,7 +29,6 @@ type UpdateComingTable struct {
 type GetListComingTableRequest struct {
 	Offset int    `json:"offset"`
 	Limit  int    `json:"limit"`
-	Search string `json:"search"`
 	Query  string `json:"-"`
 }
 

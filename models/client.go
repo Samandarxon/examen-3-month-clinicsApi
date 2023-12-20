@@ -38,10 +38,13 @@ type UpdateClient struct {
 }
 
 type GetListClientRequest struct {
-	Offset int    `json:"offset"`
-	Limit  int    `json:"limit"`
-	Search string `json:"search"`
-	Query  string `json:"-"`
+	Offset      int    `json:"offset"`
+	Limit       int    `json:"limit"`
+	FirstName   string `json:"first_name"`
+	LastName    string `json:"last_name"`
+	BranchID    string `json:"branch_id"`
+	PhoneNumber string `json:"phone_number"`
+	Query       string `json:"-"`
 }
 
 type GetListClientResponse struct {

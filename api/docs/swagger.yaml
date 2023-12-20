@@ -120,9 +120,9 @@ definitions:
     properties:
       arrival_price:
         type: number
-      name:
+      branch_id:
         type: string
-      product_id:
+      name:
         type: string
       quantity:
         type: integer
@@ -267,13 +267,13 @@ definitions:
     properties:
       arrival_price:
         type: number
+      branch_id:
+        type: string
       created_at:
         type: string
       id:
         type: string
       name:
-        type: string
-      product_id:
         type: string
       quantity:
         type: integer
@@ -383,9 +383,9 @@ definitions:
     properties:
       arrival_price:
         type: number
-      name:
+      branch_id:
         type: string
-      product_id:
+      name:
         type: string
       quantity:
         type: integer
@@ -439,9 +439,13 @@ paths:
         in: query
         name: offset
         type: number
-      - description: offset
+      - description: name
         in: query
-        name: search
+        name: name
+        type: string
+      - description: phone_number
+        in: query
+        name: phone_number
         type: string
       produces:
       - application/json
@@ -675,10 +679,6 @@ paths:
         in: query
         name: offset
         type: number
-      - description: offset
-        in: query
-        name: search
-        type: string
       produces:
       - application/json
       responses:
@@ -911,10 +911,6 @@ paths:
         in: query
         name: offset
         type: number
-      - description: offset
-        in: query
-        name: search
-        type: string
       produces:
       - application/json
       responses:
@@ -1147,9 +1143,13 @@ paths:
         in: query
         name: offset
         type: number
-      - description: offset
+      - description: name
         in: query
-        name: search
+        name: name
+        type: string
+      - description: branch_id
+        in: query
+        name: branch_id
         type: string
       produces:
       - application/json
@@ -1383,9 +1383,13 @@ paths:
         in: query
         name: offset
         type: number
-      - description: offset
+      - description: name
         in: query
-        name: search
+        name: name
+        type: string
+      - description: branch_id
+        in: query
+        name: branch_id
         type: string
       produces:
       - application/json
@@ -1604,6 +1608,93 @@ paths:
       summary: Update Remainder
       tags:
       - Remainder
+  /report_client:
+    get:
+      consumes:
+      - application/json
+      description: ClinetOverallReport
+      operationId: ClinetOverallReport
+      parameters:
+      - description: date_from
+        in: query
+        name: date_from
+        type: string
+      - description: date_to
+        in: query
+        name: date_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: ClinetOverallReportBody
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Client'
+              type: object
+        "400":
+          description: Invalid Argument
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: ClinetOverallReport
+      tags:
+      - OverallReport
+  /report_sale:
+    get:
+      consumes:
+      - application/json
+      description: SaleOverallReport
+      operationId: SaleOverallReport
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: SaleOverallReportBody
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Client'
+              type: object
+        "400":
+          description: Invalid Argument
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: SaleOverallReport
+      tags:
+      - OverallReport
   /sale:
     get:
       consumes:
@@ -1619,10 +1710,6 @@ paths:
         in: query
         name: offset
         type: number
-      - description: offset
-        in: query
-        name: search
-        type: string
       produces:
       - application/json
       responses:
@@ -1855,10 +1942,6 @@ paths:
         in: query
         name: offset
         type: number
-      - description: offset
-        in: query
-        name: search
-        type: string
       produces:
       - application/json
       responses:
@@ -2091,9 +2174,21 @@ paths:
         in: query
         name: offset
         type: number
-      - description: offset
+      - description: first_name
         in: query
-        name: search
+        name: first_name
+        type: string
+      - description: last_name
+        in: query
+        name: last_name
+        type: string
+      - description: branch_id
+        in: query
+        name: branch_id
+        type: string
+      - description: phone_number
+        in: query
+        name: phone_number
         type: string
       produces:
       - application/json

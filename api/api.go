@@ -79,6 +79,10 @@ func SetUpAPI(r *gin.Engine, cfg *config.Config, strg storage.StorageI) {
 		v1.GET("/sale/:id", handler.GetByIdSale)
 		v1.DELETE("/sale/:id", handler.DeleteSale)
 
+		// OverallReport
+		v1.GET("/report_client", handler.ClinetOverallReport)
+		v1.GET("/report_sale", handler.SaleOverallReport)
+
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))

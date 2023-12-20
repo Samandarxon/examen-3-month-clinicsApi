@@ -15,6 +15,7 @@ type StorageI interface {
 	Remainder() RemainderRepoI
 	SaleProduct() SaleProductRepoI
 	Sale() SaleRepoI
+	Report() ReportRepoI
 }
 
 type BranchRepoI interface {
@@ -79,4 +80,9 @@ type SaleRepoI interface {
 	GetById(ctx context.Context, req models.SalePrimaryKey) (*models.Sale, error)
 	Update(ctx context.Context, req models.UpdateSale) (*models.Sale, error)
 	Delete(ctx context.Context, req models.SalePrimaryKey) error
+}
+
+type ReportRepoI interface {
+	GetListReport(ctx context.Context, req models.GetListClientReportRequest) (*models.GetListClientReportResponse, error)
+	GetListSaleBranch(ctx context.Context) (*models.GetAllSaleReportResponse, error)
 }

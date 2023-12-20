@@ -124,8 +124,13 @@ func (r *ProductRepo) GetList(ctx context.Context, req models.GetListProductRequ
 	if req.Limit > 0 {
 		limit = fmt.Sprintf(" LIMIT %d", req.Limit)
 	}
-	if len(req.Search) > 0 {
-		where += " AND name ILIKE" + " '%" + req.Search + "%'"
+
+	if len(req.Name) > 0 {
+		where += " AND name ILIKE" + " '%" + req.Name + "%'"
+	}
+
+	if len(req.BranchID) > 0 {
+		where += " AND CAST(branch_id AS VARCHAR) ILIKE" + " '%" + req.BranchID + "%'"
 	}
 
 	if len(req.Query) > 0 {
@@ -133,6 +138,7 @@ func (r *ProductRepo) GetList(ctx context.Context, req models.GetListProductRequ
 	}
 
 	query += where + querySql + sort + offset + limit
+	fmt.Println(query)
 	rows, err := r.db.Query(ctx, query)
 
 	if err != nil {

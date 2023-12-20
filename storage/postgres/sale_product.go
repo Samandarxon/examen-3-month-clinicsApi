@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 
 	"github.com/Samandarxon/examen_3-month/clinics/models"
@@ -39,7 +40,65 @@ func (r *SaleProductRepo) Create(ctx context.Context, req models.CreateSaleProdu
 				"updated_at"
 			) VALUES ($1,$2,$3,$4,$5,$6,$7,NOW())`
 	)
-	_, err := r.db.Exec(ctx, query,
+	/********************************************** task 1 **********************************************/
+	// 1. Продажада товар сотилетганда агар остаток да товар йетарли булмаса, товар сотилмаслиги ва продажа создать булмаслиги кк
+	var (
+		Sql = `SELECT 
+							R.id,
+							R.quantity,	
+							R.selling_price	
+		FROM "sale" AS S
+		LEFT JOIN "remainder" AS R ON R.branch_id = S.branch_id
+		WHERE S.id = $1;
+		`
+		updateSql = `
+				UPDATE "remainder" SET  
+						"quantity" = $2,
+						"updated_at" = NOW()
+				WHERE "id" = $1`
+
+		Id sql.NullString
+		// Name         sql.NullString
+		Quantity sql.NullInt64
+		// ArrivalPrice sql.NullFloat64
+		SellingPrice sql.NullFloat64
+		// BranchID sql.NullString
+	)
+
+	rowRemaninder := r.db.QueryRow(ctx, Sql, req.SaleID)
+	rowRemaninder.Scan(
+		&Id,
+		// &Name,
+		&Quantity,
+		// &ArrivalPrice,
+		&SellingPrice,
+		// &BranchID,
+	)
+	fmt.Println(Quantity.Int64, req.Quantity)
+
+	/********************************************** task 2 **********************************************/
+	// Продажада товар сотиб олганида агар толамокчи болган пули общий толаши кк булган пулни 50 % дан кам булса, продажа булмаслиги кк
+	fmt.Println(float64(req.Quantity) * SellingPrice.Float64 / 2)
+	if req.Price < float64(req.Quantity)*SellingPrice.Float64/2 {
+		fmt.Println(req.Price)
+		return nil, errors.New("Not enough money")
+	}
+	/********************************************** task 2 end **********************************************/
+	/********************************************** task 1**********************************************/
+	if req.Quantity > Quantity.Int64 {
+		return nil, errors.New("There is not enough product")
+	}
+
+	upQuantity := Quantity.Int64 - req.Quantity
+	_, err := r.db.Exec(ctx, updateSql,
+		Id,
+		upQuantity,
+	)
+	if err != nil {
+		return nil, err
+	}
+	/********************************************** task 1 end **********************************************/
+	_, err = r.db.Exec(ctx, query,
 		sale_productId,
 		incremantIdNext(),
 		req.ProductID,

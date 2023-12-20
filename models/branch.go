@@ -26,10 +26,11 @@ type UpdateBranch struct {
 }
 
 type GetListBranchRequest struct {
-	Offset int    `json:"offset"`
-	Limit  int    `json:"limit"`
-	Search string `json:"search"`
-	Query  string `json:"-"`
+	Offset      int    `json:"offset"`
+	Limit       int    `json:"limit"`
+	Name        string `json:"name"`
+	PhoneNumber string `json:"phone_number"`
+	Query       string `json:"-"`
 }
 
 type GetListBranchResponse struct {
